@@ -2,7 +2,9 @@
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
   "version": 1,
   "cli": {
-    "packageManager": "pnpm"
+    "packageManager": "pnpm",
+    "analytics": "fccded74-1644-41d2-8f51-67d228d65ae8",
+    "schematicCollections": ["angular-eslint"]
   },
   "newProjectRoot": "projects",
   "projects": {
@@ -12,15 +14,16 @@
         "@schematics/angular:component": {
           "style": "scss",
           "type": "component",
-          "addTypeToClassName": false
+          "addTypeToClassName": true,
+          "changeDetection": "OnPush"
         },
         "@schematics/angular:directive": {
           "type": "directive",
-          "addTypeToClassName": false
+          "addTypeToClassName": true
         },
         "@schematics/angular:service": {
           "type": "service",
-          "addTypeToClassName": false
+          "addTypeToClassName": true
         },
         "@schematics/angular:guard": {
           "typeSeparator": "."
@@ -54,9 +57,7 @@
                 "input": "public"
               }
             ],
-            "styles": [
-              "src/styles.scss"
-            ],
+            "styles": ["src/styles.scss"],
             "server": "src/main.server.ts",
             "outputMode": "server",
             "ssr": {
@@ -101,6 +102,12 @@
         },
         "test": {
           "builder": "@angular/build:unit-test"
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": ["src/**/*.ts", "src/**/*.html"]
+          }
         }
       }
     }

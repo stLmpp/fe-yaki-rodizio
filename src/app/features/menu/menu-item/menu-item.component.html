@@ -1,0 +1,16 @@
+<form>
+  <app-quantity-input [field]="form.quantity"></app-quantity-input>
+</form>
+
+<pre>
+  {{ form().value() | json }}
+</pre>
+
+<pre>
+  {{
+    {
+      dirty: form.quantity().dirty(),
+      touched: form.quantity().touched(),
+    } | json
+  }}
+</pre>
