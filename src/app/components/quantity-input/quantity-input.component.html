@@ -1,37 +1,30 @@
 <button
   type="button"
   mat-icon-button
-  (mousedown)="subtractQuantity()"
-  (keydown.enter)="subtractQuantity()"
-  (keydown.space)="subtractQuantity()"
-  (mouseup)="stopChangingQuantity()"
-  (mouseleave)="stopChangingQuantity()"
-  (mouseout)="stopChangingQuantity()"
-  (blur)="stopChangingQuantity()"
-  [disabled]="value() < minValue()"
+  (click)="subtractQuantity()"
+  [disabled]="value() <= minValue()"
 >
   <mat-icon> {{ subtractIcon() }} </mat-icon>
 </button>
-<mat-form-field subscriptSizing="dynamic">
-  <input
-    class="no-spinners"
-    type="number"
-    matInput
-    [valueAsNumber]="value()"
-    (input)="onInput($event)"
-    (focus)="touched.set(true)"
-  />
-</mat-form-field>
-<button
-  type="button"
-  mat-icon-button
-  (mousedown)="addQuantity()"
-  (keydown.enter)="addQuantity()"
-  (keydown.space)="addQuantity()"
-  (mouseup)="stopChangingQuantity()"
-  (mouseleave)="stopChangingQuantity()"
-  (mouseout)="stopChangingQuantity()"
-  (blur)="stopChangingQuantity()"
->
+<section>
+  @if (editable()) {
+    <mat-form-field subscriptSizing="dynamic">
+      <input
+        class="no-spinners"
+        type="number"
+        matInput
+        [valueAsNumber]="value()"
+        (input)="onInput($event)"
+        (focus)="touched.set(true)"
+      />
+    </mat-form-field>
+  } @else {
+    <div class="value">
+      {{ value() }}
+    </div>
+  }
+</section>
+
+<button type="button" mat-icon-button (click)="addQuantity()" [disabled]="value() >= maxValue()">
   <mat-icon>add</mat-icon>
 </button>

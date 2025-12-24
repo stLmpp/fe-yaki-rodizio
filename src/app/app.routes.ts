@@ -27,6 +27,6 @@ export const routes: Routes = [
   },
   {
     path: '**',
-    redirectTo: 'not-found',
+    redirectTo: 'tables/1/orders/1/rounds/1', // TODO change to not-found
   },
 ];

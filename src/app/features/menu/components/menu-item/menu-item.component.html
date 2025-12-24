@@ -1,0 +1,13 @@
+<article class="menu-item">
+  <div class="menu-item__content">
+    <h3 class="menu-item__name">{{ menuItem().name }}</h3>
+  </div>
+
+  <div class="menu-item__actions">
+    <button matIconButton type="button" aria-label="Mais informações" (click)="openDialog()">
+      <mat-icon>info_outline</mat-icon>
+    </button>
+
+    <app-quantity-input [(value)]="quantity" [min]="0" [max]="menuItem().maxQuantity" />
+  </div>
+</article>

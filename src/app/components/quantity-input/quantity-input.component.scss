@@ -5,8 +5,16 @@
 
 mat-form-field {
   width: 50px;
+  margin-left: 0.5rem;
+  margin-right: 0.5rem;
 }
 
 input {
   text-align: center;
+}
+
+.value {
+  width: 2em;
+  text-align: center;
+  font-size: 1.2em;
 }
