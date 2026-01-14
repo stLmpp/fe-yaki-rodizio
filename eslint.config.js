@@ -40,5 +40,10 @@ module.exports = defineConfig([
       angular.configs.templateAccessibility,
     ],
     rules: {},
+  },
+  {
+    rules: {
+      '@typescript-eslint/consistent-type-definitions': ['error', 'type']
+    }
   }
 ]);
