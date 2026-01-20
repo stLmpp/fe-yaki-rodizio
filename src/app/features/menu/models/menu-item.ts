@@ -1,9 +1,9 @@
-export interface MenuItem {
+export type MenuItem = {
   name: string;
-  description: string;
+  description?: string;
   imageUrl: string;
   category: string;
 
   // Constraints
-  maxQuantity: number;
-}
+  maxQuantity?: number;
+};

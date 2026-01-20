@@ -17,6 +17,7 @@ import {
   MatFormFieldDefaultOptions,
 } from '@angular/material/form-field';
 import { cookieSSRInterceptor } from './core/cookie-ssr.interceptor';
+import { smallTtlCacheInterceptor } from './core/small-ttl-cache.interceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -38,7 +39,10 @@ export const appConfig: ApplicationConfig = {
       }),
     ),
     provideClientHydration(withEventReplay()),
-    provideHttpClient(withFetch(), withInterceptors([cookieSSRInterceptor()])),
+    provideHttpClient(
+      withFetch(),
+      withInterceptors([cookieSSRInterceptor(), smallTtlCacheInterceptor()]),
+    ),
     {
       provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
       useValue: { appearance: 'outline' } satisfies MatFormFieldDefaultOptions,

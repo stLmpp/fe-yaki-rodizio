@@ -1,4 +1,4 @@
-export type LatestRoundDto = {
+export type GetLatestRoundDto = {
   tableId: string;
   roundId: string;
   orderId: string;

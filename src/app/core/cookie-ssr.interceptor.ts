@@ -4,6 +4,7 @@ import { isPlatformServer } from '@angular/common';
 
 export function cookieSSRInterceptor(): HttpInterceptorFn {
   return (req, next) => {
+    console.log('req.url', req.url);
     const isServer = isPlatformServer(inject(PLATFORM_ID));
     if (!isServer) {
       return next(req);

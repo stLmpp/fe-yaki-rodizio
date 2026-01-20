@@ -5,5 +5,11 @@ export type HttpError = {
 };
 
 export const HttpErrorCode = {
-  RoundNotFound: 'ROUND-0001',
+  round: {
+    roundNotFound: 'ROUND-0001',
+    tableNotFound: 'ROUND-0007',
+  },
+  table: {
+    tableNotFound: 'TABLE-0001',
+  },
 } as const;

@@ -1,40 +1,26 @@
-import { CanActivateFn, createUrlTreeFromSnapshot, RedirectCommand, Routes } from '@angular/router';
+import { Routes } from '@angular/router';
 import { RouteParams } from './shared/route-params';
-import { inject } from '@angular/core';
-import { RoundService } from './services/round.service';
-import { map } from 'rxjs';
-
-function resolveLatestRound(): CanActivateFn {
-  return (route) => {
-    const roundService = inject(RoundService);
-    return roundService.getLatestRound(route.params[RouteParams.TableId]).pipe(
-      map((round) => {
-        if (!round) {
-          return new RedirectCommand(createUrlTreeFromSnapshot(route, ['orders', 'new']));
-        }
-        return new RedirectCommand(
-          createUrlTreeFromSnapshot(route, ['orders', round.orderId, 'rounds', round.roundId]),
-        );
-      }),
-    );
-  };
-}
+import { latestRoundGuard } from './guards/latest-round.guard';
+import { getRoundWithItemsResolver } from './resolvers/get-round-with-items.resolver';
 
 export const routes: Routes = [
   {
     path: `tables/:${RouteParams.TableId}`,
     pathMatch: 'full',
-    canActivate: [resolveLatestRound()],
+    canActivate: [latestRoundGuard(true)],
     children: [],
   },
   {
     path: `tables/:${RouteParams.TableId}/orders/new`,
-    // TODO guard
+    canActivate: [latestRoundGuard(false)],
     loadComponent: () =>
       import('./features/order/order-new/order-new.component').then((m) => m.OrderNewComponent),
   },
   {
     path: `tables/:${RouteParams.TableId}/orders/:${RouteParams.OrderId}/rounds/:${RouteParams.RoundId}`,
+    resolve: {
+      round: getRoundWithItemsResolver(),
+    },
     children: [
       {
         path: '',
@@ -60,6 +46,6 @@ export const routes: Routes = [
   },
   {
     path: '**',
-    redirectTo: 'tables/1/orders/1/rounds/1', // TODO change to not-found
+    redirectTo: '/not-found', // TODO change to not-found
   },
 ];

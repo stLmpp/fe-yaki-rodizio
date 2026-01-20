@@ -1,5 +1,6 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { MenuItemComponent } from '../menu-item/menu-item.component';
+import { MenuStateService } from '../../menu.state';
 
 @Component({
   selector: 'app-menu',
@@ -8,4 +9,8 @@ import { MenuItemComponent } from '../menu-item/menu-item.component';
   styleUrl: './menu.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class MenuComponent {}
+export class MenuComponent {
+  private readonly menuState = inject(MenuStateService);
+
+  readonly categories = this.menuState.categories;
+}
