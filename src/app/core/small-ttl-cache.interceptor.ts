@@ -1,4 +1,5 @@
 import {
+  HttpContextToken,
   HttpErrorResponse,
   HttpEvent,
   HttpEventType,
@@ -21,10 +22,12 @@ type Cache =
       error: HttpErrorResponse;
     };
 
+export const SMALL_TTL_CACHE_DISABLE = new HttpContextToken<boolean>(() => false);
+
 export function smallTtlCacheInterceptor(): HttpInterceptorFn {
   const cache = new Map<string, Cache>();
   return (req, next) => {
-    if (req.method !== 'GET') {
+    if (req.method !== 'GET' || req.context.get(SMALL_TTL_CACHE_DISABLE)) {
       return next(req);
     }
     const ssrRequest = inject(REQUEST, { optional: true });
@@ -32,7 +35,6 @@ export function smallTtlCacheInterceptor(): HttpInterceptorFn {
     const cacheKey = `${req.urlWithParams}-${cookies}`;
     const cached = cache.get(cacheKey);
     if (cached && dayjs().isBefore(cached.ttl)) {
-      console.log('cache hit');
       if (cached.error) {
         return throwError(() => cached.error);
       }
@@ -43,13 +45,10 @@ export function smallTtlCacheInterceptor(): HttpInterceptorFn {
         if (response.type !== HttpEventType.Response) {
           return;
         }
-        console.log('caching');
         cache.set(cacheKey, { response, ttl: dayjs().add(2.5, 'seconds') });
       }),
       catchError((error: HttpErrorResponse) => {
         if (isHttpError(error?.error)) {
-          console.log('caching');
-
           cache.set(cacheKey, { error, ttl: dayjs().add(2.5, 'seconds') });
         }
         return throwError(() => error);

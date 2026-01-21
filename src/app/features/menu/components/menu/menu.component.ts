@@ -1,10 +1,10 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { MenuItemComponent } from '../menu-item/menu-item.component';
 import { MenuStateService } from '../../menu.state';
+import { MenuCategoryComponent } from '../menu-category/menu-category.component';
 
 @Component({
   selector: 'app-menu',
-  imports: [MenuItemComponent],
+  imports: [MenuCategoryComponent],
   templateUrl: './menu.component.html',
   styleUrl: './menu.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

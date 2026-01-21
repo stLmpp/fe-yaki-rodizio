@@ -1,7 +1,6 @@
 import { Routes } from '@angular/router';
 import { RouteParams } from './shared/route-params';
 import { latestRoundGuard } from './guards/latest-round.guard';
-import { getRoundWithItemsResolver } from './resolvers/get-round-with-items.resolver';
 
 export const routes: Routes = [
   {
@@ -18,9 +17,6 @@ export const routes: Routes = [
   },
   {
     path: `tables/:${RouteParams.TableId}/orders/:${RouteParams.OrderId}/rounds/:${RouteParams.RoundId}`,
-    resolve: {
-      round: getRoundWithItemsResolver(),
-    },
     children: [
       {
         path: '',

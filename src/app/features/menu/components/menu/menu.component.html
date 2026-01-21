@@ -1,17 +1,8 @@
 @for (category of categories(); track category.productCategoryId) {
-  <h1>{{ category.productCategoryName }}</h1>
-  @for (product of category.products; track product.productId) {
-    <app-menu-item
-      [menuItem]="{
-        category: category.productCategoryName,
-        description: product.productDescription,
-        name: product.productName,
-        imageUrl:
-          'https://media.istockphoto.com/id/635732912/pt/foto/sliced-raw-salmon.jpg?s=612x612&w=0&k=20&c=fIKWSUO_xD8vUg9NLlzfG-5W5uZYhajChL1JSoqB9fk=',
-        maxQuantity: product.maxQuantity,
-      }"
-      [quantity]="product.quantity"
-    ></app-menu-item>
-  }
+  <app-menu-category
+    [productCategoryName]="category.productCategoryName"
+    [productCategoryId]="category.productCategoryId"
+    [products]="category.products"
+  ></app-menu-category>
   <hr />
 }

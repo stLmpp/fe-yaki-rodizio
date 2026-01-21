@@ -18,9 +18,12 @@ import {
 } from '@angular/material/form-field';
 import { cookieSSRInterceptor } from './core/cookie-ssr.interceptor';
 import { smallTtlCacheInterceptor } from './core/small-ttl-cache.interceptor';
+import { provideAuthInitializer } from './core/provide-auth-initializer';
+import { loggingInterceptor } from './core/logging.interceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [
+    provideAuthInitializer(),
     provideBrowserGlobalErrorListeners(),
     provideRouter(
       routes,
@@ -41,7 +44,7 @@ export const appConfig: ApplicationConfig = {
     provideClientHydration(withEventReplay()),
     provideHttpClient(
       withFetch(),
-      withInterceptors([cookieSSRInterceptor(), smallTtlCacheInterceptor()]),
+      withInterceptors([cookieSSRInterceptor(), smallTtlCacheInterceptor(), loggingInterceptor()]),
     ),
     {
       provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
